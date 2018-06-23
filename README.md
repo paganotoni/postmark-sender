@@ -1,6 +1,6 @@
 ### Postmark Buffalo Sender
 
-This is a buffalo sender for the [postmark](https://postmarkapp.com/) transactional email service.
+This is a [buffalo](github.com/gobuffalo/buffalo) sender for the [postmark](https://postmarkapp.com/) transactional email service.
 
 #### How to use
 
@@ -19,4 +19,4 @@ func init() {
 }
 ```
 
-And then in your mailers you would do the same `sender.Send(m)` as this sender matches the mail.Sender interface.
+And then in your mailers you would do the same `sender.Send(m)` as this sender matches buffalos [`mail.Sender`](https://github.com/gobuffalo/buffalo/blob/master/mail/mail.go#L4) interface.
