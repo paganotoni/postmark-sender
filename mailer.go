@@ -8,7 +8,8 @@ import (
 	"github.com/keighl/postmark"
 )
 
-//PostmarkSender implements the Sender iterface to use
+//PostmarkSender implements the Sender interface to be used
+//within buffalo mailer generated package.
 type PostmarkSender struct {
 	client       *postmark.Client
 	trackOpens   bool
