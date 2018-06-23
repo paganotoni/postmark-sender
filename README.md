@@ -19,4 +19,4 @@ func init() {
 }
 ```
 
-And then in your mailers you would do the same `sender.Send(m)` as this sender matches the mail.
+And then in your mailers you would do the same `sender.Send(m)` as this sender matches the mail.Sender interface.
