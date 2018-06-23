@@ -9,8 +9,9 @@ import (
 
 //PostmarkSender implements the Sender iterface to use
 type PostmarkSender struct {
-	client     *postmark.Client
-	trackOpens bool
+	client       *postmark.Client
+	trackOpens   bool
+	LastResponse postmark.EmailResponse
 }
 
 //Send sends an email to Postmark for delivery, it assumes
@@ -25,7 +26,9 @@ func (ps PostmarkSender) Send(m mail.Message) error {
 		TrackOpens: ps.trackOpens,
 	}
 
-	_, err := ps.client.SendEmail(email)
+	response, err := ps.client.SendEmail(email)
+	ps.LastResponse = response
+
 	return err
 }
 
