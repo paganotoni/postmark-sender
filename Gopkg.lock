@@ -286,6 +286,12 @@
   revision = "bd320f5d308e1a3c4314c678d8227a0d72574ae7"
 
 [[projects]]
+  name = "github.com/stanislas-m/mocksmtp"
+  packages = ["."]
+  revision = "4805bd992f51492d8ea4aa10b026782d4a6530e4"
+  version = "v1.0.0"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
@@ -343,6 +349,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "abfafe945d16ef6b7a68534d313de96c851a2d1c06e4604eb9a7b9ca963506be"
+  inputs-digest = "a2ab655b7573bea2e58f66d54d67aacf7ae2344009e107730669dbd31c846517"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -2,16 +2,20 @@ package sender
 
 import (
 	"errors"
+	"os"
 	"strings"
 
 	"github.com/gobuffalo/buffalo/mail"
 	"github.com/keighl/postmark"
+	"github.com/stanislas-m/mocksmtp"
 )
 
 //PostmarkSender implements the Sender interface to be used
 //within buffalo mailer generated package.
 type PostmarkSender struct {
 	client     *postmark.Client
+	TestSender *mocksmtp.MockSMTP
+
 	trackOpens bool
 }
 
@@ -20,6 +24,10 @@ type PostmarkSender struct {
 func (ps PostmarkSender) Send(m mail.Message) error {
 	if len(m.Bodies) < 2 {
 		return errors.New("you must specify at least 2 bodies HTML and plain text")
+	}
+
+	if os.Getenv("GO_ENV") == "test" {
+		return ps.TestSender.Send(m)
 	}
 
 	email := postmark.Email{
@@ -41,5 +49,6 @@ func NewPostMarkSender(serverToken, accountToken string, trackOpens bool) Postma
 	return PostmarkSender{
 		client:     postmark.NewClient(serverToken, accountToken),
 		trackOpens: trackOpens,
+		TestSender: mocksmtp.New(),
 	}
 }
