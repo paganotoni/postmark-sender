@@ -1,6 +1,7 @@
 package sender
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/gobuffalo/buffalo/mail"
@@ -17,6 +18,10 @@ type PostmarkSender struct {
 //Send sends an email to Postmark for delivery, it assumes
 //bodies[0] is HTML body and bodies[1] is text.
 func (ps PostmarkSender) Send(m mail.Message) error {
+	if len(m.Bodies) < 2 {
+		return errors.New("you must specify at least 2 bodies HTML and plain text")
+	}
+
 	email := postmark.Email{
 		From:       m.From,
 		To:         strings.Join(m.To, ","),
