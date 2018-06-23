@@ -3,7 +3,6 @@ package sender
 import (
 	"errors"
 	"strings"
-	"sync"
 
 	"github.com/gobuffalo/buffalo/mail"
 	"github.com/keighl/postmark"
@@ -12,18 +11,13 @@ import (
 //PostmarkSender implements the Sender interface to be used
 //within buffalo mailer generated package.
 type PostmarkSender struct {
-	mutex  sync.RWMutex
-	client *postmark.Client
-
+	client     *postmark.Client
 	trackOpens bool
 }
 
 //Send sends an email to Postmark for delivery, it assumes
 //bodies[0] is HTML body and bodies[1] is text.
-func (ps *PostmarkSender) Send(m mail.Message) error {
-	ps.mutex.Lock()
-	defer ps.mutex.Unlock()
-
+func (ps PostmarkSender) Send(m mail.Message) error {
 	if len(m.Bodies) < 2 {
 		return errors.New("you must specify at least 2 bodies HTML and plain text")
 	}
@@ -43,8 +37,8 @@ func (ps *PostmarkSender) Send(m mail.Message) error {
 
 // NewPostMarkSender creates a new postmarkSender with
 // its own Postmark client inside
-func NewPostMarkSender(serverToken, accountToken string, trackOpens bool) *PostmarkSender {
-	return &PostmarkSender{
+func NewPostMarkSender(serverToken, accountToken string, trackOpens bool) PostmarkSender {
+	return PostmarkSender{
 		client:     postmark.NewClient(serverToken, accountToken),
 		trackOpens: trackOpens,
 	}
