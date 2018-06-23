@@ -12,10 +12,10 @@ import (
 //PostmarkSender implements the Sender interface to be used
 //within buffalo mailer generated package.
 type PostmarkSender struct {
-	mutex        sync.RWMutex
-	client       *postmark.Client
-	trackOpens   bool
-	LastResponse postmark.EmailResponse
+	mutex  sync.RWMutex
+	client *postmark.Client
+
+	trackOpens bool
 }
 
 //Send sends an email to Postmark for delivery, it assumes
@@ -37,16 +37,14 @@ func (ps *PostmarkSender) Send(m mail.Message) error {
 		TrackOpens: ps.trackOpens,
 	}
 
-	response, err := ps.client.SendEmail(email)
-	ps.LastResponse = response
-
+	_, err := ps.client.SendEmail(email)
 	return err
 }
 
 // NewPostMarkSender creates a new postmarkSender with
 // its own Postmark client inside
-func NewPostMarkSender(serverToken, accountToken string, trackOpens bool) PostmarkSender {
-	return PostmarkSender{
+func NewPostMarkSender(serverToken, accountToken string, trackOpens bool) *PostmarkSender {
+	return &PostmarkSender{
 		client:     postmark.NewClient(serverToken, accountToken),
 		trackOpens: trackOpens,
 	}
