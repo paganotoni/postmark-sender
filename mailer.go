@@ -16,6 +16,8 @@ type PostmarkSender struct {
 	client     *postmark.Client
 	TestSender *mocksmtp.MockSMTP
 
+	//trackOpens Allows to tell the client to track
+	//or not open email events.
 	trackOpens bool
 }
 
@@ -44,7 +46,8 @@ func (ps PostmarkSender) Send(m mail.Message) error {
 }
 
 // NewPostMarkSender creates a new postmarkSender with
-// its own Postmark client inside
+// its own Postmark client inside, last book is to enable or
+// disable opens tracking.
 func NewPostMarkSender(serverToken, accountToken string, trackOpens bool) PostmarkSender {
 	return PostmarkSender{
 		client:     postmark.NewClient(serverToken, accountToken),

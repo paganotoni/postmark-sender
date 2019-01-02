@@ -6,16 +6,15 @@ This is a [buffalo](github.com/gobuffalo/buffalo) sender for the [postmark](http
 
 In your `mailers.go`
 
-```
+```go
+import psender "github.com/paganotoni/postmark-sender"
 ...
 
 var sender mail.Sender
 var hcomposer hermes.Hermes
 
 func init() {
-	serverToken := envy.Get("POSTMARK_SERVER_TOKEN", "")
-	accountToken := envy.Get("POSTMARK_ACCOUNT_TOKEN", "")
-	sender = psender.NewPostMarkSender(serverToken, accountToken, false)
+	sender = psender.NewPostMarkSender(envy.Get("POSTMARK_SERVER_TOKEN", ""), envy.Get("POSTMARK_ACCOUNT_TOKEN", ""), false)
 }
 ```
 
